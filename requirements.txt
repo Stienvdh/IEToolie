@@ -4,4 +4,7 @@ heroku==0.1.4
 requests==2.24.0
 PyYAML==5.3.1
 webexteamssdk==1.6.
-
+requests
+netmiko
+paramiko
+re

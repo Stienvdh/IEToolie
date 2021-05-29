@@ -14,7 +14,8 @@ or implied.
 
 from flask import Flask, request, jsonify
 from webexteamssdk import WebexTeamsAPI
-import os
+import os, re
+import ie2k
 
 # get environment variables
 WT_BOT_TOKEN = os.environ['WT_BOT_TOKEN']
@@ -37,13 +38,28 @@ def alert_received():
     print(raw_json)
 
     # customize the behaviour of the bot here
-    message = "Hi, I am a Webex Teams bot. Have a great day ☀! "
+    welcome_message = """
+        Hi, I am IE Toolie.
 
-    # uncomment if you are implementing a notifier bot
-    '''
-    api.messages.create(roomId=WT_ROOM_ID, markdown=message)
-    '''
+        I can do two things:
+        - Run the Mac sticky script: type "Stick"
+        - Find a device: type "Find *IP Address*"
 
+        Have a great day ☀! 
+    """
+
+    message_id = raw_json['data']['id']
+    message_object = api.messages.get(message_id)
+    message_text = message_object['text'].trim().lower()
+
+    message = welcome_message
+    if "stick" in message_text:
+        message = "Running Sticky MAC"
+    elif "find" in message_text:
+        IP_REGEX = r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b'
+        ip_list = re.findall(IP_REGEX, message_text)
+        ip_address = convert_list_to_string(ip_list[0],'')
+        message = "Finding IP address: " + ip_address 
 
     # uncomment if you are implementing a controller bot
     WT_ROOM_ID = raw_json['data']['roomId']
@@ -52,6 +68,9 @@ def alert_received():
         api.messages.create(roomId=WT_ROOM_ID, markdown=message)
 
     return jsonify({'success': True})
+
+def convert_list_to_string(list_object, seperator=''):
+    return seperator.join(list_object)
 
 if __name__=="__main__":
     app.run()
