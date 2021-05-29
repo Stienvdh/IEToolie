@@ -55,6 +55,9 @@ def alert_received():
     message = welcome_message
 
     if "stick" in message_text:
+        print(message_object.files)
+        csv_file = message_object.files[0]
+        print(str(csv_file))
         message = "Running Sticky MAC"
     elif "find" in message_text:
         IP_REGEX = r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b'
