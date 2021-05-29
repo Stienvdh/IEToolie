@@ -7,4 +7,4 @@ webexteamssdk==1.6.
 requests
 netmiko
 paramiko
-re
+regex
