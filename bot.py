@@ -38,7 +38,7 @@ def alert_received():
     print(raw_json)
 
     # customize the behaviour of the bot here
-    welcome_message = """
+    welcome_message = '''
         Hi, I am IE Toolie.
 
         I can do two things:
@@ -46,7 +46,7 @@ def alert_received():
         - Find a device: type "Find *IP Address*"
 
         Have a great day ☀! 
-    """
+    '''
 
     message_id = raw_json['data']['id']
     message_object = api.messages.get(message_id)
@@ -66,7 +66,7 @@ def alert_received():
     WT_ROOM_ID = raw_json['data']['roomId']
     personEmail_json = raw_json['data']['personEmail']
     if personEmail_json != WT_BOT_EMAIL:
-        api.messages.create(roomId=WT_ROOM_ID, markdown=message)
+        api.messages.create(roomId=WT_ROOM_ID, text=message)
 
     return jsonify({'success': True})
 
