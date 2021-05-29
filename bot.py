@@ -55,6 +55,7 @@ def alert_received():
     message = welcome_message
 
     if "stick" in message_text:
+        print(message_object.attachments)
         print(message_object.files)
         csv_file = message_object.files[0]
         print(str(csv_file))
