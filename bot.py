@@ -50,7 +50,7 @@ def alert_received():
 
     message_id = raw_json['data']['id']
     message_object = api.messages.get(message_id)
-    message_text = message_object.text.trim().lower()
+    message_text = message_object.text.strip().lower()
 
     message = welcome_message
 
